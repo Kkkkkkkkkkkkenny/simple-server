@@ -43,6 +43,16 @@ python3 server.py -q           # 安静模式（不输出访问日志）
 | `--dir` | `-d` | `.` | 服务目录 |
 | `--quiet` | `-q` | `false` | 安静模式 |
 
+## 原理
+
+详见 [原理.md](./原理.md)，覆盖以下内容：
+
+- IP 地址与端口、`127.0.0.1` vs `0.0.0.0`
+- 局域网通信与子网
+- NAT 与端口转发（含 WSL2 场景）
+- Tailscale / WireGuard 虚拟组网
+- HTTP 协议基础与 Python http.server 实现
+
 ## 依赖
 
 Python 3.8+，无第三方依赖。
