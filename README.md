@@ -1,17 +1,18 @@
 # simple-server
 
-一行命令把当前目录变成可访问的静态文件服务器，局域网 / Tailscale 秒开。
+即插即用的静态文件服务器。把脚本扔进项目目录，一行命令，局域网 / Tailscale 直连访问。
 
 ## 使用
 
 ```bash
-python3 server.py              # 当前目录，端口 8080
-python3 server.py -p 3000      # 指定端口
-python3 server.py -d ./dist    # 指定目录
-python3 server.py -q           # 安静模式（不输出访问日志）
+./server.py                # 服务当前目录，端口 8080
+./server.py index.html     # 指定某个 HTML 文件
+./server.py ./dist/        # 指定目录
+./server.py -p 3000        # 指定端口
+./server.py -q             # 安静模式
 ```
 
-启动后会自动打印可用的访问地址：
+启动后自动打印访问地址：
 
 ```
   ╔══════════════════════════════════════════╗
@@ -28,31 +29,30 @@ python3 server.py -q           # 安静模式（不输出访问日志）
   Ctrl+C 停止服务
 ```
 
+其他设备打开 `http://192.168.x.x:8080` 就能访问你的页面。
+
 ## 场景
 
-- 临时分享 HTML 文件 / 前端页面给同局域网的人看
-- 配合 Tailscale 跨网络访问，无需端口转发
-- 快速预览构建产物（`python3 server.py -d ./dist`）
-- 替代 `python3 -m http.server`，自动检测 IP 地址
+| 场景 | 命令 |
+|------|------|
+| 临时分享页面给别人看 | `./server.py` |
+| 分享单个 HTML 文件 | `./server.py login.html` |
+| 预览构建产物 | `./server.py ./dist/` |
+| 后台静默运行 | `./server.py -q &` |
 
 ## 参数
 
-| 参数 | 简写 | 默认值 | 说明 |
-|------|------|--------|------|
-| `--port` | `-p` | `8080` | 监听端口 |
-| `--dir` | `-d` | `.` | 服务目录 |
-| `--quiet` | `-q` | `false` | 安静模式 |
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `target` | `.` | 要服务的文件或目录 |
+| `-p` / `--port` | 8080 | 监听端口 |
+| `-q` / `--quiet` | — | 安静模式，不输出日志 |
 
 ## 原理
 
-详见 [原理.md](./原理.md)，覆盖以下内容：
-
-- IP 地址与端口、`127.0.0.1` vs `0.0.0.0`
-- 局域网通信与子网
-- NAT 与端口转发（含 WSL2 场景）
-- Tailscale / WireGuard 虚拟组网
-- HTTP 协议基础与 Python http.server 实现
+详见 [原理.md](./原理.md)，涵盖 IP/端口、局域网通信、NAT 端口转发、
+Tailscale 虚拟组网、WSL2 网络模型、HTTP 协议等底层原理。
 
 ## 依赖
 
-Python 3.8+，无第三方依赖。
+Python 3.8+，无需第三方库。
