@@ -129,6 +129,7 @@ def main():
 
         Handler = RedirectHandler
 
+    http.server.HTTPServer.allow_reuse_address = True
     server = http.server.HTTPServer(("0.0.0.0", args.port), Handler)
 
     print_banner(args.port, serve_dir, args.quiet)
